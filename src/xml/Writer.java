@@ -41,7 +41,7 @@ public void schreiben (String text, String name){
    }
 }
 
-public void schreibeDateiAnfang(String name) throws ParseException{
+public void schreibeDateiAnfang(Calendar date,String name) throws ParseException{
 	String br = System.getProperty("line.separator");
 	file = new File(name); 
 	try {
@@ -64,14 +64,12 @@ public void schreibeDateiAnfang(String name) throws ParseException{
 	writer.write("<Location>0013_AkuMon</Location>");
 	writer.write(br);
 	
-	Calendar myCal = Calendar.getInstance();
-	myCal.set( 2016, Calendar.FEBRUARY, 5, 12, 3, 6 );
-	String jahr = Funktion.convertToString(myCal.get(Calendar.YEAR));
-	int monat = myCal.get(Calendar.MONTH)+1;
-	int tag = myCal.get(Calendar.DATE);
-	int stunde = myCal.get(Calendar.HOUR);
-	int minute = myCal.get(Calendar.MINUTE);
-	int sekunde = myCal.get(Calendar.SECOND);
+	String jahr = Funktion.getJahr(date);
+	String monat = Funktion.getMonat(date);
+	String tag = Funktion.getTag(date);
+	String stunde = Funktion.getStunde(date);
+	String minute = Funktion.getMinute(date);
+	String sekunde = Funktion.getSekunde(date);
 	
 	writer.write("<StartDate>"+jahr+"-"+monat+"-"+tag+"</StartDate>");
 	writer.write(br);
