@@ -4,15 +4,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
 
 
 public class Writer {
 	
 	 FileWriter writer;
 	 File file;
+	 String br = System.getProperty("line.separator");
 
 	 
 public void schreiben (String text, String name){
@@ -41,8 +41,40 @@ public void schreiben (String text, String name){
    }
 }
 
+public void writeData(Calendar date, String LAeq, double LAFmin, String LAFmax, int Status,String name){
+	file = new File(name); 
+	try {
+	writer = new FileWriter(file,true);
+	writer.write(br);
+	writer.write("<Data><Date>"+Funktion.getDatum(date)+"</Date><Time>"
+			+Funktion.getZeit(date)+"</Time><LAeq>"+LAeq+"</LAeq><LAFmin>"+LAFmin+
+			"</LAFmin><LAFmax>"+LAFmax+"</LAFmax><Status>"+Status+"</Status></Data>");	
+	writer.flush();    
+    // Schlieﬂt den Stream
+    writer.close();
+	 } catch (IOException e) {
+	     e.printStackTrace();
+	 	}
+}
+
+public void schreibeEnde(String name){
+	file = new File(name); 
+	try {
+	writer = new FileWriter(file,true);
+	writer.write(br);
+	writer.write("<DataCount>60</DataCount>");
+	writer.write(br);
+	writer.write("</Values>");
+	writer.flush();    
+    // Schlieﬂt den Stream
+    writer.close();
+	 } catch (IOException e) {
+	     e.printStackTrace();
+	 	}
+}
+
 public void schreibeDateiAnfang(Calendar date,String name) throws ParseException{
-	String br = System.getProperty("line.separator");
+	
 	file = new File(name); 
 	try {
 	writer = new FileWriter(file);	
@@ -75,8 +107,7 @@ public void schreibeDateiAnfang(Calendar date,String name) throws ParseException
 	writer.write(br);
 	writer.write("<StartTime>"+stunde+"-"+minute+"-"+sekunde+"</StartTime>");
 	
-	writer.flush();
-    
+	writer.flush();    
     // Schlieﬂt den Stream
     writer.close();
 	 } catch (IOException e) {

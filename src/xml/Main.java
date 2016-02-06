@@ -1,7 +1,7 @@
 package xml;
 
 import java.text.ParseException;
-import java.time.Month;
+
 import java.util.Calendar;
 
 
@@ -18,26 +18,29 @@ public class Main {
 		Calendar endDate = Calendar.getInstance();
 		endDate.set(2016,Calendar.FEBRUARY,5,0,2,59);
 		
-		// Platformunabhängiger Zeilenumbruch wird in den Stream geschrieben
-		String br = System.getProperty("line.separator");
 		Writer writer = new Writer();
 		String dateiName;
-		Calendar laufDate = Calendar.getInstance();	
-		laufDate = startDate;
-		
-		
+		CsvReader reader = new CsvReader();
+	
 /******************************************************************************/
+		long Dateienanzahl=Funktion.getZeitspanne(startDate, endDate);
 		
-		for (int i = startDate.get(Calendar.MINUTE);i<=endDate.get(Calendar.MINUTE);i++){
+		for (int i = 0;i<Dateienanzahl;i++){
+
+		dateiName = DateiNameAnfang + Funktion.getDateiDatum(startDate) + ".xml";				
+		writer.schreibeDateiAnfang(startDate, dateiName);
+			for (int j=0;j<60;j++){				
+				writer.writeData(startDate, reader.readCSV(i,j)[0], 50,reader.readCSV(i,j)[1], 1, dateiName);
+				
+			}
+		writer.schreibeEnde(dateiName);
+		startDate.set(Calendar.MINUTE,startDate.get(Calendar.MINUTE)+1);
 		
-		laufDate.set(Calendar.MINUTE, i);
-		dateiName = DateiNameAnfang + Funktion.getDateiDatum(laufDate) + ".xml";				
-		writer.schreibeDateiAnfang(laufDate, dateiName);
-		
-		writer.schreiben("test",dateiName);
-		writer.schreiben(br,dateiName);
 		}
+		
 	}
+	
+	
 
 }
 
