@@ -2,8 +2,12 @@ package xml;
 
 public class CsvReader {
 	
-	public String[] readCSV(int x, int y) {
-		String[] result = {"-","-"};
+	String LAeq = "-";
+	String LAFmax = "-";
+	int zeilenNr = 40;
+	
+	public void readCSV() {
+		
         try {
             java.io.BufferedReader FileReader=                      //ein Reader um die Datei Zeilenweise auszulesen
                     new java.io.BufferedReader(
@@ -12,24 +16,18 @@ public class CsvReader {
                         )
                     );
            
-            String zeile="";
-            
-            int zaehler = 40+(x*60)+y;
-            while(zaehler>20918){
-            	zaehler-=20878;
-            }
-            
-            for(int i=0;i<zaehler;i++){ 					//Springe in passede Zeile
+            String zeile="";            
+            for(int i=0;i<zeilenNr;i++){ 						//Springe in passede Zeile
             	zeile=FileReader.readLine();
-            }
-           
+            }  
+            
+            if (zeilenNr<20896)zeilenNr++;						//Werte bei der Kalibrierung werden nicht berücksichtigt
+            	else zeilenNr = 40;
           
-                String[] split=zeile.split(";");                //hier wird die Zeile zerlegt als Trennzeichen ;
-                String LAeq=split[2].split(" ")[0];
-                result[0]=LAeq;                       
-                
-                String LAFmax=split[3].split(" ")[0];
-                result[1]=LAFmax;  
+            String[] split=zeile.split(";");                	//hier wird die Zeile zerlegt als Trennzeichen ;
+            LAeq=split[2].split(" ")[0];                    
+            LAFmax=split[3].split(" ")[0];
+                 
             
             
         FileReader.close();           
@@ -37,7 +35,7 @@ public class CsvReader {
             e.printStackTrace();
         }
         
-		return result;
+		
         
     }
 

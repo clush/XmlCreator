@@ -56,7 +56,7 @@ public class Funktion {
 	}
 	
 	public static String getStunde(Calendar cal){		
-		return Funktion.convertToString(cal.get(Calendar.HOUR));		
+		return Funktion.convertToString(cal.get(Calendar.HOUR_OF_DAY));		
 	}
 	
 	public static String getMinute(Calendar cal){		
